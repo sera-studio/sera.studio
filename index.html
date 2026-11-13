@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SERA STUDIO | أفكارك، بصورة أوضح</title>
+  <!-- استيراد الخطوط المعتمدة في الهوية البصرية: IBM Plex Sans Arabic و Manrope -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- تحميل Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sera: {
+              blue: '#1646D8',
+              blueHover: '#1137AD',
+              navy: '#101828',
+              ice: '#EAF0FF',
+              bg: '#F8FAFF',
+              line: '#DBE3F5',
+              muted: '#667085',
+            }
+          },
+          fontFamily: {
+            arabic: ['"IBM Plex Sans Arabic"', 'Segoe UI', 'Tahoma', 'sans-serif'],
+            latin: ['Manrope', 'Segoe UI', 'sans-serif'],
+          },
+          boxShadow: {
+            'sera-card': '0 10px 30px -6px rgba(16, 24, 40, 0.05)',
+            'sera-hover': '0 16px 36px -8px rgba(22, 70, 216, 0.14)',
+            'sera-logo': '0 20px 45px -10px rgba(22, 70, 216, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #F8FAFF;
+      color: #101828;
+      overflow-x: hidden;
+    }
+    /* خلفية شبكية خفيفة تعبر عن النظام والدقة */
+    .sera-grid-pattern {
+      background-image: 
+        linear-gradient(to right, rgba(219, 227, 245, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(219, 227, 245, 0.45) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    /* حلقات هندسية خفيفة في الخلفية */
+    .bg-ring-top {
+      position: fixed;
+      width: 540px;
+      height: 540px;
+      border: 1px solid rgba(22, 70, 216, 0.07);
+      border-radius: 50%;
+      top: -240px;
+      left: -180px;
+      box-shadow: 0 0 0 60px rgba(22, 70, 216, 0.03), 0 0 0 120px rgba(22, 70, 216, 0.015);
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-sera-blue selection:text-white sera-grid-pattern min-h-screen relative">
+
+  <!-- حلقات الهوية الخلفية -->
+  <div class="bg-ring-top"></div>
+
+  <!-- إشعار منبثق (Toast) بديل لـ alert() -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none w-[90%] max-w-sm">
+    <div class="bg-sera-navy text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3">
+      <span class="w-7 h-7 rounded-full bg-sera-blue flex items-center justify-center text-sm shrink-0">✦</span>
+      <p id="toast-message" class="text-xs sm:text-sm font-medium leading-snug"></p>
+    </div>
+  </div>
+
+  <!-- الحاوية الرئيسية للواجهة الواحدة -->
+  <main class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-10 pb-16 sm:pt-14 sm:pb-20 space-y-12">
+
+    <!-- 1. القسم التعريفي (Hero / من نحن) -->
+    <section class="bg-white border border-sera-line rounded-[32px] p-7 sm:p-11 shadow-sera-card text-center relative overflow-hidden">
+      <!-- شريط علوي صغير بالهوية -->
+      <div class="inline-flex items-center gap-2 bg-sera-ice text-sera-blue text-xs font-bold px-4 py-1.5 rounded-full mb-7">
+        <span>✦</span>
+        <span>استوديو رقمي إبداعي · Digital Creative Studio</span>
+      </div>
+
+      <!-- أيقونة الشعار المعتمدة (حرف S المتصل + اللمعة) -->
+      <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-[28px] bg-sera-blue flex items-center justify-center shadow-sera-logo mb-6 transition-transform duration-300 hover:scale-105">
+        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-white" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M41 19.5C38.2 16.8 33.8 15.5 29 15.5C21.5 15.5 16.5 19.3 16.5 24.8C16.5 30.6 22.2 32.3 31.5 33.8C40.8 35.3 46.5 37.2 46.5 43.3C46.5 49.2 40.8 53 32.5 53C26.5 53 21.5 51.1 18.5 47.8" stroke="currentColor" stroke-width="5.2" stroke-linecap="round"/>
+          <path d="M48 11L49.6 15.4L54 17L49.6 18.6L48 23L46.4 18.6L42 17L46.4 15.4L48 11Z" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <!-- اسم العلامة -->
+      <h1 class="font-latin font-extrabold text-2xl sm:text-3xl tracking-[0.22em] text-sera-navy uppercase mb-3">
+        SERA STUDIO
+      </h1>
+
+      <!-- الشعار اللفظي الرئيسي (Slogan) -->
+      <h2 class="text-2xl sm:text-4xl font-bold text-sera-navy leading-tight mb-4">
+        فكرتك تستحق أن تظهر <span class="text-sera-blue">بأفضل صورة.</span>
+      </h2>
+
+      <!-- نبذة من نحن -->
+      <p class="text-sera-muted text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
+        استوديو رقمي إبداعي يرتّب الأفكار ويمنحها حضوراً بصرياً واضحاً — نساعد الطلاب، صناع المحتوى، والمشاريع الصغيرة على تحويل أفكارهم إلى عروض، تصاميم، وملفات منظمة.
+      </p>
+
+      <!-- أزرار الوصول السريع المباشرة -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto">
+        <a id="hero-whatsapp-btn" href="https://wa.me/213780050364" target="_blank" rel="noopener noreferrer" onclick="handleDirectLink(event, 'whatsapp')"
+          class="w-full sm:flex-1 bg-sera-blue hover:bg-sera-blueHover text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-md hover:shadow-sera-hover flex items-center justify-center gap-2.5 text-sm sm:text-base">
+          <!-- أيقونة واتساب -->
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.461 3.477 1.336 4.992L2 22l5.18-1.359a9.923 9.923 0 0 0 4.851 1.266h.004c5.512 0 9.965-4.453 9.965-9.969 0-2.664-1.035-5.168-2.918-7.051A9.903 9.903 0 0 0 12.031 2zm5.816 14.277c-.246.691-1.43 1.324-1.984 1.406-.508.078-1.148.109-1.855-.117-.43-.137-.98-.32-1.688-.625-2.969-1.281-4.906-4.27-5.055-4.469-.148-.199-1.207-1.605-1.207-3.062 0-1.457.762-2.172 1.031-2.469.27-.297.59-.371.785-.371.195 0 .391.004.562.012.18.008.422-.07.66.504.246.594.836 2.043.91 2.191.074.148.121.32.023.516-.098.199-.148.32-.293.492-.148.172-.309.383-.441.516-.148.148-.301.309-.129.605.172.297.762 1.258 1.637 2.039 1.125 1.004 2.074 1.316 2.371 1.465.297.148.469.125.641-.074.172-.199.738-.859.934-1.156.195-.297.391-.246.66-.148.27.098 1.719.812 2.012.961.297.148.492.223.566.344.074.125.074.715-.172 1.406z"/>
+          </svg>
+          <span>تواصل عبر واتساب</span>
+        </a>
+
+        <a id="hero-instagram-btn" href="https://www.instagram.com/bysera.studio" target="_blank" rel="noopener noreferrer" onclick="handleDirectLink(event, 'instagram')"
+          class="w-full sm:flex-1 bg-sera-ice hover:bg-sera-line/70 text-sera-navy font-bold py-3.5 px-6 rounded-2xl transition-all flex items-center justify-center gap-2.5 text-sm sm:text-base">
+          <!-- أيقونة إنستغرام -->
+          <svg class="w-5 h-5 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>حسابنا على إنستغرام</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. قسم خدماتنا (بطاقات مختصرة وأنيقة) -->
+    <section id="services" class="space-y-5">
+      <div class="flex items-end justify-between px-1">
+        <div>
+          <span class="font-latin text-[11px] font-extrabold tracking-[0.18em] text-sera-blue uppercase block mb-1">OUR SERVICES</span>
+          <h3 class="text-xl sm:text-2xl font-bold text-sera-navy">ما الذي نرتّبه لك؟</h3>
+        </div>
+        <span class="text-xs text-sera-muted hidden sm:inline">وضوح · إتقان · التزام بالموعد</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- خدمة 1 -->
+        <div onclick="inquireService('تصميم العروض التقديمية')" class="cursor-pointer group bg-white border border-sera-line hover:border-sera-blue rounded-[24px] p-6 shadow-sera-card hover:shadow-sera-hover transition-all duration-300">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-sera-ice group-hover:bg-sera-blue text-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="2" y="3" width="20" height="14" rx="3"></rect>
+                <path d="M8 21h8M12 17v4M7 9h5M7 13h10"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-sera-navy mb-1.5 group-hover:text-sera-blue transition-colors">تصميم العروض التقديمية</h4>
+              <p class="text-xs sm:text-sm text-sera-muted leading-relaxed">
+                ترتيب الهيكل، التسلسل البصري، وتصميم شرائح احترافية للمشاريع والدراسة.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- خدمة 2 -->
+        <div onclick="inquireService('التصاميم الرقمية ومنشورات السوشيال ميديا')" class="cursor-pointer group bg-white border border-sera-line hover:border-sera-blue rounded-[24px] p-6 shadow-sera-card hover:shadow-sera-hover transition-all duration-300">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-sera-ice group-hover:bg-sera-blue text-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <path d="M21 15l-5-5L5 21"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-sera-navy mb-1.5 group-hover:text-sera-blue transition-colors">التصاميم الرقمية والسوشيال ميديا</h4>
+              <p class="text-xs sm:text-sm text-sera-muted leading-relaxed">
+                هوية متناسقة، قوالب منشورات، ومحتوى بصري جذاب للمشاريع وصناع المحتوى.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- خدمة 3 -->
+        <div onclick="inquireService('إعداد وتنسيق الملفات الإلكترونية')" class="cursor-pointer group bg-white border border-sera-line hover:border-sera-blue rounded-[24px] p-6 shadow-sera-card hover:shadow-sera-hover transition-all duration-300">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-sera-ice group-hover:bg-sera-blue text-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="8" y1="13" x2="16" y2="13"></line>
+                <line x1="8" y1="17" x2="13" y2="17"></line>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-sera-navy mb-1.5 group-hover:text-sera-blue transition-colors">إعداد وتنسيق الملفات الإلكترونية</h4>
+              <p class="text-xs sm:text-sm text-sera-muted leading-relaxed">
+                تنظيم المستندات والتقارير والكتيبات الرقمية وإخراجها بصيغ احترافية جاهزة.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- خدمة 4 -->
+        <div onclick="inquireService('الدعم الأكاديمي المنظّم')" class="cursor-pointer group bg-white border border-sera-line hover:border-sera-blue rounded-[24px] p-6 shadow-sera-card hover:shadow-sera-hover transition-all duration-300">
+          <div class="flex items-start gap-4">
+            <div class="w-11 h-11 rounded-2xl bg-sera-ice group-hover:bg-sera-blue text-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-base text-sera-navy mb-1.5 group-hover:text-sera-blue transition-colors">الدعم الأكاديمي المنظّم</h4>
+              <p class="text-xs sm:text-sm text-sera-muted leading-relaxed">
+                التدقيق اللغوي، التنسيق، وتنظيم المراجع باحترام تام للأمانة العلمية.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. قسم روابطنا ومواقعنا (بطاقات تفاعلية قابلة للنقر مباشرة) -->
+    <section id="links" class="space-y-5">
+      <div class="px-1">
+        <span class="font-latin text-[11px] font-extrabold tracking-[0.18em] text-sera-blue uppercase block mb-1">CONNECT WITH US</span>
+        <h3 class="text-xl sm:text-2xl font-bold text-sera-navy">تواصل معنا وابدأ طلبك مباشرة</h3>
+      </div>
+
+      <div class="space-y-3.5">
+        <!-- رابط 1: واتساب (البطاقة المميزة باللون الأزرق) -->
+        <a href="https://wa.me/213780050364" target="_blank" rel="noopener noreferrer" onclick="handleDirectLink(event, 'whatsapp')"
+          class="group block bg-sera-blue hover:bg-sera-blueHover text-white rounded-[24px] p-5 sm:p-6 shadow-sera-logo transition-all duration-300 hover:-translate-y-0.5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.461 3.477 1.336 4.992L2 22l5.18-1.359a9.923 9.923 0 0 0 4.851 1.266h.004c5.512 0 9.965-4.453 9.965-9.969 0-2.664-1.035-5.168-2.918-7.051A9.903 9.903 0 0 0 12.031 2zm5.816 14.277c-.246.691-1.43 1.324-1.984 1.406-.508.078-1.148.109-1.855-.117-.43-.137-.98-.32-1.688-.625-2.969-1.281-4.906-4.27-5.055-4.469-.148-.199-1.207-1.605-1.207-3.062 0-1.457.762-2.172 1.031-2.469.27-.297.59-.371.785-.371.195 0 .391.004.562.012.18.008.422-.07.66.504.246.594.836 2.043.91 2.191.074.148.121.32.023.516-.098.199-.148.32-.293.492-.148.172-.309.383-.441.516-.148.148-.301.309-.129.605.172.297.762 1.258 1.637 2.039 1.125 1.004 2.074 1.316 2.371 1.465.297.148.469.125.641-.074.172-.199.738-.859.934-1.156.195-.297.391-.246.66-.148.27.098 1.719.812 2.012.961.297.148.492.223.566.344.074.125.074.715-.172 1.406z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-base sm:text-lg">واتساب (WhatsApp)</h4>
+                  <span class="bg-white/20 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full">رد سريع</span>
+                </div>
+                <p class="text-sera-ice text-xs sm:text-sm mt-0.5">تواصل معنا مباشرة لبدء طلبك أو الاستفسار عن السعر (<span dir="ltr">+213 780 05 03 64</span>)</p>
+              </div>
+            </div>
+            <span class="w-9 h-9 rounded-full bg-white/15 group-hover:bg-white group-hover:text-sera-blue flex items-center justify-center transition-all shrink-0 font-bold">
+              ←
+            </span>
+          </div>
+        </a>
+
+        <!-- رابط 2: إنستغرام -->
+        <a href="https://www.instagram.com/bysera.studio" target="_blank" rel="noopener noreferrer" onclick="handleDirectLink(event, 'instagram')"
+          class="group block bg-white hover:bg-sera-ice/40 border border-sera-line hover:border-sera-blue rounded-[24px] p-5 sm:p-6 shadow-sera-card transition-all duration-300 hover:-translate-y-0.5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-sera-ice text-sera-blue group-hover:bg-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+                <svg class="w-6 h-6 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-base sm:text-lg text-sera-navy">إنستغرام (Instagram)</h4>
+                <p class="text-sera-muted text-xs sm:text-sm mt-0.5">تابع أعمالنا اليومية، القوالب، والنصائح البصرية (<span dir="ltr">@bysera.studio</span>)</p>
+              </div>
+            </div>
+            <span class="w-9 h-9 rounded-full bg-sera-bg group-hover:bg-sera-blue group-hover:text-white text-sera-navy flex items-center justify-center transition-all shrink-0 font-bold">
+              ←
+            </span>
+          </div>
+        </a>
+
+        <!-- رابط 3: تيليغرام -->
+        <a href="https://t.me/+213780050364" target="_blank" rel="noopener noreferrer" onclick="handleDirectLink(event, 'telegram')"
+          class="group block bg-white hover:bg-sera-ice/40 border border-sera-line hover:border-sera-blue rounded-[24px] p-5 sm:p-6 shadow-sera-card transition-all duration-300 hover:-translate-y-0.5">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-sera-ice text-sera-blue group-hover:bg-sera-blue group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-bold text-base sm:text-lg text-sera-navy">تيليغرام (Telegram)</h4>
+                <p class="text-sera-muted text-xs sm:text-sm mt-0.5">لإرسال الملفات والوثائق بجودتها الأصلية والتواصل المباشر</p>
+              </div>
+            </div>
+            <span class="w-9 h-9 rounded-full bg-sera-bg group-hover:bg-sera-blue group-hover:text-white text-sera-navy flex items-center justify-center transition-all shrink-0 font-bold">
+              ←
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. فوتر بسيط وأنيق -->
+    <footer class="bg-sera-navy text-white rounded-[28px] p-7 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-sera-card">
+      <div class="text-center sm:text-right">
+        <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+          <span class="font-latin font-extrabold text-lg tracking-[0.2em]">SERA STUDIO</span>
+          <span class="text-[#7EA2FF]">✦</span>
+        </div>
+        <p class="text-sera-ice/80 text-xs sm:text-sm">أفكارك، بصورة أوضح.</p>
+      </div>
+
+      <button onclick="shareOrCopyPageLink()"
+        class="w-full sm:w-auto bg-white/10 hover:bg-sera-blue border border-white/15 text-white text-xs sm:text-sm font-bold px-5 py-3 rounded-2xl transition-colors flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        <span>نسخ رابط البطاقة ومشاركتها</span>
+      </button>
+    </footer>
+
+  </main>
+
+  <script>
+    // =========================================================================
+    // إعدادات روابط SERA STUDIO الرسمية
+    // =========================================================================
+    const STUDIO_LINKS = {
+      whatsappNumber: '213780050364',
+      whatsappDefaultMessage: 'مرحباً SERA STUDIO، أود الاستفسار عن خدمة وبدء طلب جديد ✦',
+      instagram: 'https://www.instagram.com/bysera.studio',
+      telegram: 'https://t.me/+213780050364'
+    };
+
+    // دالة إظهار الإشعار اللطيف (Toast)
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msgEl = document.getElementById('toast-message');
+      msgEl.textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3600);
+    }
+
+    // التعامل مع النقر على أي منصة من منصات الاستوديو
+    function handleDirectLink(event, platform, customServiceText = null) {
+      event.preventDefault();
+
+      if (platform === 'whatsapp') {
+        const msg = customServiceText 
+          ? `مرحباً SERA STUDIO، أود الاستفسار عن خدمة: (${customServiceText}) ✦`
+          : STUDIO_LINKS.whatsappDefaultMessage;
+        const encodedMsg = encodeURIComponent(msg);
+        window.open(`https://wa.me/${STUDIO_LINKS.whatsappNumber}?text=${encodedMsg}`, '_blank', 'noopener,noreferrer');
+        return;
+      }
+
+      if (platform === 'instagram') {
+        window.open(STUDIO_LINKS.instagram, '_blank', 'noopener,noreferrer');
+        return;
+      }
+
+      if (platform === 'telegram') {
+        window.open(STUDIO_LINKS.telegram, '_blank', 'noopener,noreferrer');
+        return;
+      }
+    }
+
+    // عند النقر على بطاقة خدمة معينة، يفتح واتساب مباشرة مع اسم الخدمة مختاراً
+    function inquireService(serviceName) {
+      handleDirectLink(new Event('click'), 'whatsapp', serviceName);
+    }
+
+    // نسخ رابط الصفحة ومشاركتها باستخدام execCommand لضمان العمل في جميع البيئات
+    function shareOrCopyPageLink() {
+      const pageUrl = window.location.href;
+      const textarea = document.createElement('textarea');
+      textarea.value = pageUrl;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('تم نسخ رابط بطاقة SERA STUDIO لمشاركته ✦');
+      } catch (err) {
+        showToast('تعذر النسخ التلقائي، يمكنك نسخ الرابط من شريط العنوان');
+      }
+      document.body.removeChild(textarea);
+    }
+  </script>
+</body>
+</html>
